@@ -1,0 +1,82 @@
+{% extends "Admin/base1.html" %}
+{% load static %}
+
+
+{% block my %}
+    <div id="content" class="container">
+        <img src="{% static 'logo.jpeg' %}" alt="logo" />
+
+        <h1
+            style="
+                text-align: center;
+                font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                font-weight: bolder;
+            "
+        >
+            The Punjab School
+        </h1>
+
+        <div class="row product-container" style=" margin: 5% ">
+            <div class="col-md-6 col-lg-6 ">
+                <div class="card" onclick="window.location.href='/classes'">
+                    <img
+                        style="width: 95%; height: 95%; align-content: center; margin-top: 2%"
+                        src="{% static 'classes.jpg' %}"
+                        class="card-img-top mx-auto"
+                        alt="Classes Image"
+                    />
+                    <div class="card-body text-center hover-effect">
+                        <h2 class="card-title">SDP - Classes</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6 ">
+                <div class="card" onclick="window.location.href='/teachers'">
+                    <img
+                        style="width: 95%; height: 95%; align-content: center; margin-top: 2%"
+                        src="{% static 'teachers.jpg' %}"
+                        class="card-img-top mx-auto"
+                        alt="Teachers Image"
+                    />
+                    <div class="card-body text-center hover-effect">
+                        <h2 class="card-title">SDP - Teachers</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row product-container" style=" margin: 5% ">
+            <div class="col-md-6 col-lg-6 ">
+                <div class="card" onclick="window.location.href='/students'">
+                    <img
+                        style="width: 95%; height: 95%; align-content: center; margin-top: 2%;"
+                        src="{% static 'students.jpg' %}"
+                        class="card-img-top mx-auto"
+                        alt="Students Image"
+                    />
+                    <div class="card-body text-center hover-effect">
+                        <h2 class="card-title">SDP - Students</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6 ">
+                <div class="card" onclick="window.location.href='/courses'">
+                    <img
+                        style="width: 95%; height: 95%; align-content: center; margin-top: 2%"
+                        src="{% static 'courses.jpg' %}"
+                        class="card-img-top mx-auto"
+                        alt="Courses Image"
+                    />
+                    <div class="card-body text-center hover-effect">
+                        <h2 class="card-title">SDP - Courses</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+

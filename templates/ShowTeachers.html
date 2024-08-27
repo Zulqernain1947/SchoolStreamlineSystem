@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+</head>
+<body>
+    <button id="showTeacher">Show Teachers Data</button>
+    <table id="datatable" class="display"></table>
+
+    <script>
+    var myData;
+
+    $(document).ready(function() {
+        $('#showTeacher').click(function(e) {
+            $.ajax({
+                type: "GET",
+                url: "/show_teachers",
+                success: function(result) {
+                    myData = result.data;
+
+                    if (myData != null && myData.length > 0) {
+                        // Destroy existing DataTable if it exists
+                        if ($.fn.DataTable.isDataTable('#datatable')) {
+                            $('#datatable').DataTable().destroy();
+                        }
+
+                        // Initialize DataTable with the new data
+                        $('#datatable').DataTable({
+                            data: myData,
+                            columns: [
+                                { data: "_id", title: "Id" },
+                                { data: "name", title: "Name" },
+                                { data: "email", title: "Email" },
+                                { data: "password", title: "Password" },
+                                { data: "phone_no", title: "Phone No" },
+                                { data: "joining_date", title: "Joining Date" },
+                                { data: "salary", title: "Salary" },
+                            ]
+                        });
+                    }
+                },
+                error: function(error) {
+                    console.log('Error:', error);
+                }
+            });
+        });
+    });
+</script>
+
+
+</body>
+</html>

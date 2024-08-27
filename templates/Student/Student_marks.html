@@ -1,0 +1,120 @@
+{% extends "Student/base2.html" %}
+{% load static %}
+
+{% block my %}
+<style>
+    /* Custom CSS styles */
+    .main-content {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .welcome-box {
+        background-color: #007bff;
+        color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+
+    }
+
+
+    .card-title {
+        color: #122d49;
+        font-weight: bolder;
+    }
+
+    .table {
+        background-color: #fff;
+    }
+
+    th,
+    td {
+        text-align: center;
+    }
+
+    .total-marks {
+        font-size: 24px;
+        color: #28a745;
+        font-weight: bold;
+    }
+
+    /* Apply different background colors to odd and even rows */
+    .table-striped tbody tr:nth-child(odd) {
+        background-color: #ffccd5; /* Background color for odd rows */
+    }
+
+    .table-striped tbody tr:nth-child(even) {
+        background-color: #fff0f3; /* Background color for even rows */
+    }
+    #result{
+        margin: 6%;
+    }
+</style>
+
+<div id="content" class="container">
+    <div class="main-content">
+        <img src="{% static 'logo.jpeg' %}" alt="logo" />
+
+        <h1 style="text-align: center; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; font-weight: bolder;">
+            The Punjab School
+        </h1>
+
+        <div class="welcome-box">
+            <h1>Welcome {{ st_name }}!</h1>
+        </div>
+
+        <div class="card mt-5" id="result">
+            <div class="card-body">
+                <h3 class="card-title text-center">Your Result</h3>
+
+                <div class="row mt-4">
+                    <div class="col">
+                        <h4 class="text-center">Marks</h4>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Term</th>
+                                    <th scope="col">Total Marks</th>
+                                    <th scope="col">Marks Obtained</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <tr>
+                                        <th scope="row">First Term Marks</th>
+                                        <td>{{ data.first_term_total_marks }}</td>
+                                        <td>{{ data.first_term_marks }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Second Term Marks</th>
+                                        <td>{{ data.second_term_total_marks }}</td>
+                                        <td>{{ data.second_term_marks }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Third Term Marks</th>
+                                        <td>{{ data.third_term_total_marks }}</td>
+                                        <td>{{ data.third_term_marks }}</td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+<div style="display: flex; justify-content: center; margin-top:-40px" >
+    <button class="btn" onclick="window.location.href='/show_courses1'">
+        Back
+    </button>
+</div>
+</div>
+
+{% endblock %}

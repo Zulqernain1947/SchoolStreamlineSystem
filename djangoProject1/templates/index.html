@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>School development system</title>
+</head>
+<body>
+<form method="post" >
+    {% csrf_token %}
+    <label for="name">Name:{{ data }}</label>
+    <input type="text" name="name" id="name" placeholder="Enter Your Name">
+
+    <label for="cgpa">CGPA:</label>
+    <input type="text" name="cgpa" id="cgpa" placeholder="Enter Your CGPA">
+    <label for="class">Class:</label>
+    <input type="text" name="class" id="class" placeholder="Enter Your Class">
+    <button type="submit" >Submit</button>
+
+</form>
+
+</body>
+</html>

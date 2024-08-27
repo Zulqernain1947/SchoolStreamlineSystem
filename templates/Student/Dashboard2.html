@@ -1,0 +1,106 @@
+{% extends "Student/base2.html" %}
+{% load static %}
+
+{% block my %}
+    <style>
+        /* Custom CSS styles */
+        .card {
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+            height: 100%;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            font-weight: bold;
+        }
+        .card p {
+            font-size: 18px;
+            color: #031d3a;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px; /* Adjust padding for better alignment */
+            height: 100%; /* Ensure the text card fills the entire height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .card-title {
+            font-size: 22px;
+            color: #031d3a;
+            margin-top: 10px;
+        }
+.card:hover p {
+            color: orange; /* Change text color on hover */
+        }
+        .card:hover .card-title {
+            color: orange; /* Change text color on hover */
+        }
+
+        .card-img-top {
+            border-radius: 5px;
+        }
+
+        .hover-effect:hover {
+            cursor: pointer;
+            background-color: #f9f9f9;
+        }
+    </style>
+
+    <div id="content" class="container">
+        <img src="{% static 'logo.jpeg' %}" alt="logo" />
+
+        <h1 style="text-align: center; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; font-weight: bolder;">
+            The Punjab School
+        </h1>
+
+        <div class="row product-container" style="margin: 5%">
+            <div class="col-md-6 col-lg-6">
+                <div class="card text-center">
+                    <div class="card-body text-center">
+                        <h1 class="card-title">SDP - Diary</h1>
+                    </div>
+                    <p>
+                        Your school diary is your digital companion, designed to keep you organized, informed, and engaged throughout your academic journey. Just like the traditional paper diary, this digital version serves as a hub for all your important school-related activities
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6">
+                <div class="card " onclick="window.location.href='/student_diary'">
+                    <img style="width: 95%; height: 95%; align-content: center; "
+                         src="{% static 'classes.jpg' %}" class="card-img-top mx-auto" alt="Students Image" />
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row product-container" style="margin: 5%">
+            <div class="col-md-6 col-lg-6">
+                <div class="card" onclick="window.location.href='/show_courses1'">
+                    <img style="width: 95%; height: 95%; align-content: center; "
+                         src="{% static 'courses.jpg' %}" class="card-img-top mx-auto" alt="Courses Image" />
+
+                </div>
+            </div>
+
+
+            <div class="col-md-6 col-lg-6">
+                <div class="card text-center">
+                    <div class="card-body text-center">
+                        <h1 class="card-title">SDP - Courses</h1>
+                    </div>
+                    <p>
+                        Here, you can view all the courses you're currently enrolled in, track your progress, and access course materials. Stay organized and stay ahead by keeping up-to-date with your enrolled courses right here.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

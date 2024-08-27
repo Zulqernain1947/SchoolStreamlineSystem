@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+</head>
+<body>
+    <button id="showteacher">Show Teachers Data</button>
+    <table id="show" border="2"></table>
+
+    <script>
+        var myData;
+
+        $(document.body).on('click', "#showteacher", function (e) {
+            $.ajax({
+                type: "GET",
+                url: "/get_Student",
+                success: function (result) {
+                    myData = result.data;  // Extract data from the result object
+                    console.log(myData);
+
+                    if (myData != null && myData.length > 0) {
+                        // Destroy existing DataTable if it exists
+                        if ($.fn.DataTable.isDataTable('#show')) {
+                            $('#show').DataTable().destroy();
+                        }
+
+                        // Initialize DataTable with the new data
+                        $('#show').DataTable({
+                            data: myData,
+                            columns: [
+                                { data: "_id", title: "Student Id" },
+                                { data: "name", title: "Name" },
+                                { data: "email", title: "Email" },
+                                { data: "phone_no", title: "Phone No" },
+                                { data: "dob", title: "Date Of Birth" },
+                                { data: "admission_date", title: "Admission Date" },
+                                { data: "classroom_id", title: "Class" },
+                                { data: "section_id", title: "Section" },
+                            ]
+                        });
+                    }
+                },
+                error: function (error) {
+                    console.log('Error:', error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

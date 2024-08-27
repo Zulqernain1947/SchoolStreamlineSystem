@@ -1,0 +1,66 @@
+{% extends "Teacher/base3.html" %}
+{% load static %}
+
+{% block my %}
+<div id="content" class="container">
+    <div class="main-content">
+        <img src="{% static 'logo.jpeg' %}" alt="logo" />
+        <h1 style="text-align: center; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; font-weight: bolder;">
+            The Punjab School
+        </h1>
+
+
+            <div class="container-content"  >
+                <div class="welcome-box">
+                    <h1>Attendance Form!</h1>
+                </div>
+        <!-- Form -->
+        <div class="container"  style="width: 85%; margin: 0 auto;">
+            <form action="{% url 'markAttendence' data.0.section_id data.0.classroom_id course_id %}" method="POST">
+                {% csrf_token %}
+                <div class="card shadow">
+                    <div class="card-header text-center">
+                        <h3 class="card-title">Mark Attendance</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="std_id" class="form-label">Student ID</label>
+                            </div>
+                            <div class="col">
+                                <label for="name" class="form-label">Student Name</label>
+                            </div>
+                            <div class="col">
+                                <label for="attendance" class="form-label">Attendance</label>
+                            </div>
+                        </div>
+                        {% for student in data %}
+                        <div class="row mb-3 align-items-center">
+                            <div class="col">
+                                <input type="text" class="form-control" id="std_id_{{ student.student_id }}" name="std_id_{{ student.student_id }}" value="{{ student.student_id }}" readonly>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" id="name_{{ student.student_id }}" name="name_{{ student.student_id }}" value="{{ student.name }}" readonly>
+                            </div>
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="attendance_{{ student.student_id }}" name="attendance_{{ student.student_id }}" checked>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        {% endfor %}
+                    </div>
+                    <div class="card-footer text-center">
+                        <button type="submit" class="btn btn-primary ">Submit Attendance</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+</div>
+</div>
+
+{% endblock %}
+

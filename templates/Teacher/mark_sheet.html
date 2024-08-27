@@ -1,0 +1,162 @@
+{% extends "Teacher/base3.html" %}
+{% load static %}
+
+{% block my %}
+<style>
+
+        #content {
+            margin-left: 17%;
+            padding: 20px;
+        }
+        .wrapper{
+            margin-left: 10%;
+            width: 80%;
+        }
+
+        .container-content {
+            margin-top: 40px;
+        }
+
+        .welcome-box {
+            background: linear-gradient(to right, #007BFF, #00BFFF);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #fcdada;
+            font-size: 22px;
+            color: rgba(225, 34, 52, 0.7);
+            padding: 10px 0;
+            border-radius: 8px 8px 0 0;
+
+        }
+
+        .card-title {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-footer {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-top: 1px solid #ddd;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            border-radius: 4px;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background-color: #ddd;
+            margin: 20px 0;
+        }
+
+        .btn-primary {
+            background-color: #007BFF;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+    <div id="content" class="container">
+         <img src="{% static 'logo.jpeg' %}" alt="logo" />
+
+      <h1
+        style="
+          text-align: center;
+          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+          font-weight: bolder;
+        "
+      >
+        The Punjab School
+      </h1>
+            <div class="container-content">
+                <div class="welcome-box">
+                    <h1>Mark Sheet Form</h1>
+                </div>
+            <div class="wrapper">
+                <div class="container mt-4">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="card shadow">
+                            <div class="card-header text-center">
+                                <h3 class="card-title">Enter Marks</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <label for="std_id" class="form-label">Student ID</label>
+                                    </div>
+                                    <div class="col">
+                                        <label for="name" class="form-label">Student Name</label>
+                                    </div>
+                                    <div class="col">
+                                        <label for="first_term" class="form-label">First Term</label>
+                                    </div>
+                                    <div class="col">
+                                        <label for="second_term" class="form-label">Second Term</label>
+                                    </div>
+                                    <div class="col">
+                                        <label for="third_term" class="form-label">Third Term</label>
+                                    </div>
+                                </div>
+                                {% for student in data %}
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col">
+                                        <input type="text" class="form-control" id="std_id_{{ student.student_id }}" name="std_id_{{ student.student_id }}" value="{{ student.student_id }}" readonly>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" id="name_{{ student.student_id }}" name="name_{{ student.student_id }}" value="{{ student.name }}" readonly>
+                                    </div>
+                                    <div class="col">
+                                        <input type="number" class="form-control" id="first_term_{{ student.student_id }}" name="first_term_{{ student.student_id }}" min="0" max="100" required>
+                                    </div>
+                                    <div class="col">
+                                        <input type="number" class="form-control" id="second_term_{{ student.student_id }}" name="second_term_{{ student.student_id }}" min="0" max="100" required>
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control" id="third_term_{{ student.student_id }}" name="third_term_{{ student.student_id }}" min="0" max="100" required>
+                                </div>
+                            </div>
+                            <hr>
+                            {% endfor %}
+                        </div>
+                        <div class="card-footer text-center">
+                            <button type="submit" class="btn btn-primary">Submit Marks</button>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}

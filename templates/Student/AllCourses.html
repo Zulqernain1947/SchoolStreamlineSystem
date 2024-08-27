@@ -1,0 +1,57 @@
+{% extends "Student/base2.html" %}
+{% load static %}
+
+
+{% block my %}
+
+<div id="content" class="container">
+    <div class="main-content">
+        <img src="{% static 'logo.jpeg' %}" alt="logo" />
+
+        <h1 style="text-align: center; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; font-weight: bolder;">
+            The Punjab School
+        </h1>
+
+        <div class="welcome-box">
+            <h1>Welcome {{ st_name }}!</h1>
+        </div>
+
+        <div class="row mt-3" style="margin-left: 5%;">
+            {% for key, value in data.items %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    {% with 'static/'|add:value.name|add:'.jpg' as img_path %}
+                    <img src="{{ img_path }}" class="card-img-top" alt="course_image" style="width: 100%;">
+                    {% endwith %}
+                    <div class="card-body">
+                        <h5 class="card-title"><b>Course Title: </b>{{ value.name }}</h5>
+                        <h6 class="card-subtitle mb-2 "><b>Course ID:</b> C00{{ key }}</h6>
+                        <p class="card-text"><b>Teacher Name: </b>
+                            {% for tec_name in tec_names %}
+                            {{ tec_name }}
+                            {% endfor %}
+                        </p>
+                    </div>
+                <div>
+
+
+                <button class="btn" style=" margin-bottom: 15px; margin-left: 30%"
+                    data-toggle="tooltip" data-placement="top" title="Check Marks"
+                    onclick="window.location.href='/getMarks/{{ key }}'">
+                    <i class='fas fa-book-reader' style='font-size: 18px'></i>
+                </button>
+
+                <button class="btn" style=" margin-bottom: 15px;"
+                    data-toggle="tooltip" data-placement="top" title="Check Attendance"
+                    onclick="window.location.href='/student/{{ key }}'">
+                    <i class='fas fa-check-circle' style='font-size: 18px'></i>
+                </button>
+</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

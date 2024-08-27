@@ -1,0 +1,132 @@
+<!-- your_new_page.html -->
+{% extends "Admin/base1.html" %}
+{% load static %}
+
+{% block my %}
+<style>
+
+
+    .student-details {
+    text-align: center;
+    padding: 10px;
+    background: linear-gradient(to bottom, #3498db, #eeeded);
+    color: black;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(52, 152, 219, 0.7);
+    animation: fadeIn 1s ease-out;
+    max-width: 80%; /* Adjusted max-width */
+    margin: auto;
+    flex: 1;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.student-details form {
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+form .form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+form .form-group label {
+    width: 30%;
+    margin-right: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+form .form-group input {
+    margin-right: 10px;
+    flex: 1;
+}
+
+button[type="submit"] {
+    margin-top: 25px;
+    font-size: 16px !important;
+    width: 40%;
+    align-items: center;
+    color: white;
+}
+
+.student-details h2 {
+    margin-top: 30px;
+    font-weight: bold;
+}
+
+</style>
+
+
+<div id="content" class="container">
+    <img src="{% static 'logo.jpeg' %}" alt="logo" />
+
+    <h1 style="text-align: center; margin-bottom: 50px; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; font-weight: bolder;">
+        The Punjab School
+    </h1>
+
+    <div class="student-details">
+        <h2 style="margin-top: 7%">Update Student</h2>
+        <form method="post" enctype="multipart/form-data" class="exam-form" style="margin-bottom: 50px;">
+            {% csrf_token %}
+             <div class="form-group">
+              <label for="uname">Student ID:</label>
+        	<input type="number" name="id"  value = "{{ data.student_id }}" required>
+            </div>
+          <div class="form-group">
+              <label for="classroom_id"> Classroom ID:</label>
+        <input type="number" name="classroom_id" value = "{{ data.classroom_id }}" >
+         </div>
+         <div class="form-group">
+              <label for="section_id"> Section ID:</label>
+        <input type="text" name="section_id" value = "{{ data.section_id }}">
+         </div>
+
+               <div class="form-group">
+              <label for="name">Updated Name:</label>
+        <input type="text" name="name" value = "{{ data.name }}">
+              </div>
+		<div class="form-group">
+		<label for="email">Updated Email:</label>
+        <input type="email" name="email" value = "{{ data.email }}">
+		</div>
+		<div class="form-group">
+		<label for="password">Updated Password:</label>
+        <input type="password" name="password" >
+		</div>
+		<div class="form-group">
+		<label for="dob">Updated Date of Birth:</label>
+        <input type="date" name="dob">
+		</div>
+		<div class="form-group">
+		<label for="phone_no">Updated Phone Number:</label>
+        <input type="text" name="phone_no" value = "{{ data.phone_no }}">
+		</div>
+		<div class="form-group">
+		<label for="admission_date">Updated Admission Date:</label>
+        <input type="date" name="admission_date" >
+		</div>
+
+
+            <div class="form-group">
+                <label></label>
+                <button type="submit" class="btn btn-light btn-center">Update student</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* CSS styles */
+        @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Lato", sans-serif;
+            background-color: #f4f4f4;
+            overflow-x: hidden;
+            color: #333;
+        }
+
+        .container-dashboard {
+            display: grid;
+            height: 100vh;
+            grid-template-columns: 250px 1fr;
+            grid-template-rows: 60px 1fr;
+            grid-template-areas: "sidebar nav" "sidebar main";
+        }
+
+        .navbar-dashboard {
+            grid-area: nav;
+            height: 60px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            border-bottom: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-dashboard a {
+            text-decoration: none;
+            color: #555;
+            margin-right: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-dashboard a:hover {
+            color: #3ea175;
+        }
+
+        .main__container {
+            padding: 20px;
+        }
+
+        .main__title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .main__title h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .main__title p {
+            font-size: 14px;
+            color: #888;
+            margin-left: 10px;
+        }
+
+        .main__cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card-dashboard {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card-dashboard:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-dashboard i {
+            font-size: 36px;
+            color: #3ea175;
+            margin-bottom: 10px;
+        }
+
+        .font-bold {
+            font-weight: bold;
+            font-size: 20px;
+            color: #333;
+        }
+
+        /* Sidebar styles */
+        #sidebar {
+            grid-area: sidebar;
+            background: linear-gradient(to right, #333, #666);
+            color: white;
+            transition: width 0.3s ease;
+            padding-top: 20px;
+        }
+
+        .sidebar__title h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            margin-left: 20px;
+        }
+
+        .sidebar__menu {
+            padding: 20px;
+        }
+
+        .sidebar__menu h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #eee;
+            margin-bottom: 20px;
+        }
+
+        .sidebar__link {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar__link i {
+            font-size: 18px;
+            color: #a5aaad;
+            margin-right: 10px;
+        }
+
+        .sidebar__link a {
+            color: #a5aaad;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .sidebar__link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar__link:hover a {
+            color: #fff;
+        }
+
+        .sidebar__logout {
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .sidebar__logout i {
+            font-size: 18px;
+            color: #a5aaad;
+            margin-right: 10px;
+        }
+
+        .sidebar__logout a {
+            color: #a5aaad;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .sidebar__logout:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar__logout:hover a {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-dashboard">
+    <header class="navbar-dashboard">
+        <div class="navbar__left">
+            <a href="#" class="active_link">Home</a>
+            <a href="#">Courses</a>
+            <a href="#">Grades</a>
+            <a href="#">Calendar</a>
+        </div>
+        <div class="navbar__right">
+            <a href="#"><i class="fa fa-search"></i></a>
+            <a href="#"><i class="fa fa-envelope"></i></a>
+            <a href="#"><i class="fa fa-bell"></i></a>
+        </div>
+    </header>
+    <aside id="sidebar">
+        <div class="sidebar__title">
+            <h1>Student Dashboard</h1>
+        </div>
+        <div class="sidebar__menu">
+            <h2>Main</h2>
+            <div class="sidebar__link active_menu_link">
+                <i class="fa fa-home"></i>
+                <a href="#">Home</a>
+            </div>
+            <div class="sidebar__link">
+                <i class="fa fa-book"></i>
+                <a href="#">Courses</a>
+            </div>
+            <div class="sidebar__link">
+                <i class="fa fa-graduation-cap"></i>
+                <a href="#">Grades</a>
+            </div>
+            <div class="sidebar__link">
+                <i class="fa fa-calendar"></i>
+                <a href="#">Calendar</a>
+            </div>
+        </div>
+    </aside>
+    <main>
+        <div class="main__container">
+            <div class="main__title">
+                <h1>Hello, John!</h1>
+                <p>Welcome back to your student dashboard.</p>
+            </div>
+            <div class="main__cards">
+                <div class="card-dashboard">
+                    <i class="fa fa-book"></i>
+                    <div class="card_inner">
+                        <p class="text-primary-p">Number of Courses</p>
+                        <span class="font-bold">8</span>
+                    </div>
+                </div>
+                <div class="card-dashboard">
+                    <i class="fa fa-graduation-cap"></i>
+                    <div class="card_inner">
+                        <p class="text-primary-p">Average Grade</p>
+                        <span class="font-bold">A-</span>
+                    </div>
+                </div>
+                <div class="card-dashboard">
+                    <i class="fa fa-calendar"></i>
+                    <div class="card_inner">
+                        <p class="text-primary-p">Next Exam</p>
+                        <span class="font-bold">Math - March 15</span>
+                    </div>
+                </div>
+            </div>
+            <div class="charts">
+                <div class="charts__left" id="apex1"></div>
+                <div class="charts__right">
+                    <div class="charts__right__title">
+                        <h1>Grade Distribution</h1>
+                        <p>Overall grades distribution for the current semester</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Attendance Chart</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="piechart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+                    </div>
+                    <div class="sidebar__logout">
+                        <i class="fa fa-power-off"></i>
+                        <a href="#">Log out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<script>
+    $(document).ready(function(){
+        var pieData = {
+            labels: ['ABSENT', 'PRESENT','TOTAL'],
+            datasets: [{
+                data: [{{ present_attendance }}, {{ absent_attendance }} , {{ total_attendance }}],
+                backgroundColor: ['#f56954', '#00a65a','#ffc107'],
+            }]
+        };
+
+        var pieChartCanvas = document.getElementById('piechart').getContext('2d');
+        var pieOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+        };
+
+        new Chart(pieChartCanvas, {
+            type: 'pie',
+            data: pieData,
+            options: pieOptions
+        });
+    });
+</script>
+
+</body>
+</html>

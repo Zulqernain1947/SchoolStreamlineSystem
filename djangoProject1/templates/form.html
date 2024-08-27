@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>form</title>
+</head>
+<body>
+<form method="post" action="{% url 'submit' %}">
+    {% csrf_token %}
+    <div>
+        <label for="uname">name</label>
+        <input type="text" name="un" class="form-control">
+
+    </div>
+    <div>
+        <label for="email">Email</label>
+        <input type="email" name="em" class="form-control">
+
+    </div>
+    <div>
+        <button type="submit">save</button>
+    </div>
+
+    <div>
+        {{ var1 }}
+    </div>
+</form>
+</body>
+</html>

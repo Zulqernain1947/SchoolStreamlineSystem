@@ -1,0 +1,340 @@
+{% extends "Admin/base1.html" %}
+{% load static %}
+{% block my %}
+<style>
+
+  .container {
+    position: relative;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed; /* Position the wrapper relative to the viewport */
+    top: 50%; /* Center the wrapper vertically */
+    left: 60%; /* Center the wrapper horizontally */
+    transform: translate(-50%, -50%); /* Center the wrapper precisely */
+    z-index: 0;
+}
+
+.course-details {
+   width: auto;
+    height: auto;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .5);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    transform: scale(0);
+    transition: transform .5s ease, height .2s ease;
+}
+
+.course-details.active-popup {
+    transform: scale(1);
+
+}
+
+.course-details .icon-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 40px;
+    width: 40px;
+    font-size: 1.5em;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 20px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.course-details form {
+    margin: 40px;
+    padding: 10px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+form .form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+form .form-group label {
+    width: 30%;
+    margin-right: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+form .form-group input {
+    margin-right: 10px;
+    flex: 1;
+}
+
+button[type="submit"] {
+    margin-top: 15px;
+    font-size: 16px !important;
+    width: 40%;
+    align-items: center;
+    color: white;
+}
+
+.course-details h2 {
+    margin-top: 30px;
+    font-weight: bold;
+}
+
+#courseInputs {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: hidden;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        .courseDiv {
+            flex: 0 0 auto;
+            width: 100%; /* Adjust the width as needed */
+            margin-right: 10px;
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+
+
+
+    </style>
+
+     <div class="wrapper">
+        <div class="course-details">
+            <span class="icon-close">
+                <i class="fas fa-times"></i>
+            </span>
+
+            <form method="POST" action="{% url 'addCourse' %}" >
+            {% csrf_token %}
+                 <div class="form-group">
+                      <label>No Of Courses:</label>
+                      <input type="number" name="count" id="count" required><br>
+                 </div>
+
+            <div id="courseInputs"></div>
+
+
+                 <div class="form-group" style="display: flex; justify-content: center; margin-top: 30px">
+                     <button type="button" class="btn" id="nextButton" onclick="showPrevCourse()">
+                         <i class="fas fa-chevron-left"></i>
+                     </button>
+                    <button  class="btn" id="addCourse">
+                         <i class="fas fa-plus"></i>
+                    </button>
+                      <button type="button" class="btn" id="nextButton" onclick="showNextCourse()">
+                         <i class="fas fa-chevron-right"></i>
+                     </button>
+            </div>
+        </form>
+        <h2 id="error"></h2>
+
+    </div>
+</div>
+
+    <div id="content" class="container">
+      <img src="{% static 'logo.jpeg' %}" alt="logo" />
+
+      <h1
+        style="
+          text-align: center;
+          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+          font-weight: bolder;
+        "
+      >
+        The Punjab School
+      </h1>
+
+      <div class="welcome-box">
+                <h1>Welcome to Courses Department!</h1>
+      </div>
+         <button id="addCourses" class="icon-add" style="display:flex; justify-content:center; background-color:white;border:none;margin-bottom: -2.7%  ; margin-left: 9%">
+                <i class="fas fa-plus-square" style="color: #27496e; font-size: x-large"></i>
+            </button>
+    <div class="row product-container">
+         <table id="datatable" class="display"></table>
+    </div>
+    </div>
+    <script>
+        var myData;
+
+       jQuery(document).ready(function($) {
+
+             console.log("Document ready"); // Check if document ready function is executed
+            document.getElementById('addCourses').addEventListener('click', function() {
+
+        // Show form when plus icon is clicked
+
+            console.log("Add teacher clicked"); // Check if click event is triggered
+            $('.course-details').addClass('active-popup');
+             document.querySelector('.wrapper').style.zIndex = '1';
+        });
+            const close = document.querySelector('.icon-close');
+                        close.addEventListener('click', () => {
+                        const courseDetails = document.querySelector('.course-details');
+                        console.log("clicked")
+                        courseDetails.classList.remove('active-popup');
+                         document.querySelector('.wrapper').style.zIndex = '0';
+                    });
+            $.ajax({
+                type: "GET",
+                url: "/show_courses",
+                success: function(result) {
+                    myData = result.data;
+
+                    if (myData != null && myData.length > 0) {
+                            console.log("datatable");
+
+                        $('#datatable').DataTable({
+                            data: myData,
+                            columns: [
+                                { data: 'course_id', title: 'Course ID' },
+                                { data: 'course_name', title: 'Course Name' },
+                                { data: 'class_id', title: 'Class' },
+                                { data: 'section_id', title: 'Section' },
+                                { data: 'teacher_id', title: 'Teacher ID' },
+                                { data: 'teacher_name', title: 'Teacher Name' },
+                                { data: 'teacher_email', title: 'Teacher Email' },
+                                {
+        data: 'course_id', title: 'Action',
+        render: function(data, type, row) {
+            var updateUrl = "{% url 'updCrs' 0 %}".replace('0', data);
+            var deleteUrl = "{% url 'remCrs' 0 %}".replace('0', data);
+           return '<a href="' + updateUrl + '" class="fas fa-pencil-alt" style="color: black;"></a>' +"    "+
+                   '<a href="' + deleteUrl + '" class="fas fa-trash-alt" style="color: red;"></a>';
+        },
+    },
+                            ],
+
+
+                        });
+                    }
+                },
+                error: function(error) {
+                    console.log('Error:', error);
+                }
+            });
+        });
+
+       function showNextCourse() {
+        var count = document.getElementById("count").value;
+        var currentCourse = document.querySelector('.courseDiv.show');
+
+        if (!currentCourse) {
+            // Show the first student input
+            document.querySelector('.courseDiv').classList.add('show');
+        } else {
+            var nextCourse = currentCourse.nextElementSibling;
+
+            if (nextCourse) {
+                // Hide the current student
+                currentCourse.classList.remove('show');
+                // Show the next student
+                nextCourse.classList.add('show');
+            }
+        }
+
+    }
+        function showPrevCourse() {
+        var count = document.getElementById("count").value;
+        var currentCourse = document.querySelector('.courseDiv.show');
+
+        if (!currentCourse) {
+            // Show the first student input
+            document.querySelector('.courseDiv').classList.add('show');
+        } else {
+            var prevCourse = currentCourse.previousElementSibling;
+
+            if (prevCourse) {
+                // Hide the current student
+                currentCourse.classList.remove('show');
+                // Show the next student
+                prevCourse.classList.add('show');
+            }
+        }
+
+    }
+
+    document.getElementById("count").addEventListener("input", function() {
+
+        var count = document.getElementById("count").value;
+        var courseInputs = document.getElementById("courseInputs");
+
+        // Clear previous inputs
+        courseInputs.innerHTML = "";
+
+        for (var i = 1; i <= count; i++) {
+            var courseDiv = document.createElement("div");
+            courseDiv.classList.add("courseDiv");
+            courseDiv.innerHTML = `
+                        <h4 style="font-weight: bold; justify-content: center;display: flex">Course ${i}</h4>
+
+
+
+               <div class="form-group">
+              <label for="name">Course Name:</label>
+        <input type="text" name="name${i}">
+              </div>
+
+                    <hr>
+                `;
+            courseInputs.appendChild(courseDiv);
+        }
+
+        // Show the first student input initially
+        document.querySelector('.courseDiv').classList.add('show');
+
+
+    });
+        document.querySelector('.course-details form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    console.log('Form submitted');
+
+    const formData = new FormData(this);
+
+    fetch('/addCourse/', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Form submitted successfully');
+            const courseDetails = document.querySelector('.course-details');
+                    courseDetails.classList.remove('active-popup');
+                    document.querySelector('.wrapper').style.zIndex = '0';
+            window.location.reload();
+        } else {
+            console.error('Form submission failed');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+    </script>
+
+
+{% endblock %}

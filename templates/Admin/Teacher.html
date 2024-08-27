@@ -1,0 +1,361 @@
+{% extends "Admin/base1.html" %}
+{% load static %}
+
+{% block my %}
+ <style>
+
+  .container {
+    position: relative;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed; /* Position the wrapper relative to the viewport */
+    top: 50%; /* Center the wrapper vertically */
+    left: 60%; /* Center the wrapper horizontally */
+    transform: translate(-50%, -50%); /* Center the wrapper precisely */
+    z-index: 0;
+}
+
+.teacher-details {
+   width: auto;
+    height: auto;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .5);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    transform: scale(0);
+    transition: transform .5s ease, height .2s ease;
+}
+
+.teacher-details.active-popup {
+    transform: scale(1);
+
+}
+
+.teacher-details .icon-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 40px;
+    width: 40px;
+    font-size: 1.5em;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 20px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.teacher-details form {
+    margin: 40px;
+    padding: 10px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+form .form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+form .form-group label {
+    width: 30%;
+    margin-right: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+form .form-group input {
+    margin-right: 10px;
+    flex: 1;
+}
+
+button[type="submit"] {
+    margin-top: 15px;
+    font-size: 16px !important;
+    width: 40%;
+    align-items: center;
+    color: white;
+}
+
+.teacher-details h2 {
+    margin-top: 30px;
+    font-weight: bold;
+}
+
+#teachersInputs {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: hidden;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        .teacherDiv {
+            flex: 0 0 auto;
+            width: 100%; /* Adjust the width as needed */
+            margin-right: 10px;
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+
+
+
+    </style>
+
+    <div class="wrapper">
+        <div class="teacher-details">
+            <span class="icon-close">
+                <i class="fas fa-times"></i>
+            </span>
+
+            <form method="POST" action="{% url 'addTech' %}" >
+            {% csrf_token %}
+                 <div class="form-group">
+                      <label>No Of Teachers:</label>
+                      <input type="number" name="count" id="count" required><br>
+                 </div>
+
+            <div id="teachersInputs"></div>
+
+
+                 <div class="form-group" style="display: flex; justify-content: center; margin-top: 30px">
+                     <button type="button" class="btn" id="nextButton" onclick="showPrevTeacher()">
+                         <i class="fas fa-chevron-left"></i>
+                     </button>
+                    <button  class="btn" id="addTech">
+                         <i class="fas fa-plus"></i>
+                    </button>
+                      <button type="button" class="btn" id="nextButton" onclick="showNextTeacher()">
+                         <i class="fas fa-chevron-right"></i>
+                     </button>
+            </div>
+        </form>
+        <h2 id="error"></h2>
+
+    </div>
+</div>
+    <div id="content" class="container">
+      <img src="{% static 'logo.jpeg' %}" alt="logo" />
+
+      <h1
+        style="
+          text-align: center;
+          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+          font-weight: bolder;
+        "
+      >
+        The Punjab School
+      </h1>
+
+      <div class="welcome-box">
+                <h1>Welcome to Teaching Department!</h1>
+      </div>
+        <button id="addTeachers" class="icon-add" style="display:flex; justify-content:center; background-color:white;border:none;margin-bottom: -2.7%  ; margin-left: 13%">
+                <i class="fas fa-plus-square" style="color: #27496e; font-size: x-large"></i>
+            </button>
+    <div class="row product-container">
+         <table id="datatable" class="display"></table>
+    </div>
+        </div>
+    <script>
+        var myData;
+
+       jQuery(document).ready(function($) {
+
+             console.log("Document ready"); // Check if document ready function is executed
+            document.getElementById('addTeachers').addEventListener('click', function() {
+
+        // Show form when plus icon is clicked
+
+            console.log("Add teacher clicked"); // Check if click event is triggered
+            $('.teacher-details').addClass('active-popup');
+             document.querySelector('.wrapper').style.zIndex = '1';
+        });
+            const close = document.querySelector('.icon-close');
+                        close.addEventListener('click', () => {
+                        const teacherDetails = document.querySelector('.teacher-details');
+                        console.log("clicked")
+                        teacherDetails.classList.remove('active-popup');
+                         document.querySelector('.wrapper').style.zIndex = '0';
+                    });
+            $.ajax({
+                type: "GET",
+                url: "/show_teachers",
+                success: function(result) {
+                    myData = result.data;
+
+                    if (myData != null && myData.length > 0) {
+                        // Initialize DataTable with the new data
+                        $('#datatable').DataTable({
+                            data: myData,
+                            columns: [
+                                { data: "_id", title: "Id" },
+                                { data: "name", title: "Name" },
+                                { data: "email", title: "Email" },
+                                { data: "password", title: "Password" },
+                                { data: "phone_no", title: "Phone No" },
+                                { data: "joining_date", title: "Joining Date" },
+                                { data: "salary", title: "Salary" },
+                                {
+        data: '_id', title: 'Action',
+        render: function(data, type, row) {
+            var updateUrl = "{% url 'updTech' 0 %}".replace('0', data);
+            var deleteUrl = "{% url 'remTech' 0 %}".replace('0', data);
+           return '<a href="' + updateUrl + '" class="fas fa-pencil-alt" style="color: black;"></a>' +"    "+
+                   '<a href="' + deleteUrl + '" class="fas fa-trash-alt" style="color: red;"></a>';
+        },
+    },
+                            ],
+
+
+                        });
+                    }
+                },
+                error: function(error) {
+                    console.log('Error:', error);
+                }
+            });
+        });
+
+       function showNextTeacher() {
+        var count = document.getElementById("count").value;
+        var currentTeacher = document.querySelector('.teacherDiv.show');
+
+        if (!currentTeacher) {
+            // Show the first student input
+            document.querySelector('.teacherDiv').classList.add('show');
+        } else {
+            var nextTeacher = currentTeacher.nextElementSibling;
+
+            if (nextTeacher) {
+                // Hide the current student
+                currentTeacher.classList.remove('show');
+                // Show the next student
+                nextTeacher.classList.add('show');
+            }
+        }
+
+    }
+        function showPrevTeacher() {
+        var count = document.getElementById("count").value;
+        var currentTeacher = document.querySelector('.teacherDiv.show');
+
+        if (!currentTeacher) {
+            // Show the first student input
+            document.querySelector('.teacherDiv').classList.add('show');
+        } else {
+            var prevTeacher = currentTeacher.previousElementSibling;
+
+            if (prevTeacher) {
+                // Hide the current student
+                currentTeacher.classList.remove('show');
+                // Show the next student
+                prevTeacher.classList.add('show');
+            }
+        }
+
+    }
+
+    document.getElementById("count").addEventListener("input", function() {
+        document.querySelector('.teacher-details').style.width = '650px';
+        document.querySelector('.teacher-details').style.height = '500px';
+
+        var count = document.getElementById("count").value;
+        var teacherInputs = document.getElementById("teachersInputs");
+
+        // Clear previous inputs
+        teacherInputs.innerHTML = "";
+
+        for (var i = 1; i <= count; i++) {
+            var teacherDiv = document.createElement("div");
+            teacherDiv.classList.add("teacherDiv");
+            teacherDiv.innerHTML = `
+                        <h4 style="font-weight: bold; justify-content: center;display: flex">Teacher ${i}</h4>
+
+
+
+               <div class="form-group">
+              <label for="name">Name:</label>
+        <input type="text" name="name${i}">
+              </div>
+		<div class="form-group">
+		<label for="email">Email:</label>
+        <input type="email" name="email${i}" >
+		</div>
+		<div class="form-group">
+		<label for="password">Password:</label>
+        <input type="text" name="password${i}"  >
+		</div>
+
+		<div class="form-group">
+		<label for="phone_no">Phone Number:</label>
+        <input type="text" name="phone_no${i}">
+		</div>
+		<div class="form-group">
+		<label for="admission_date">Joining Date:</label>
+        <input type="date" name="joiningDate${i}" >
+</div>
+		<div class="form-group">
+        <label for="salary">Salary:</label>
+        <input type="number" name="salary${i}">
+		</div>
+                    <hr>
+                `;
+            teacherInputs.appendChild(teacherDiv);
+        }
+
+        // Show the first student input initially
+        document.querySelector('.teacherDiv').classList.add('show');
+
+
+    });
+        document.querySelector('.teacher-details form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    console.log('Form submitted');
+
+    const formData = new FormData(this);
+
+    fetch('/addTech/', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Form submitted successfully');
+            const teacherDetails = document.querySelector('.teacher-details');
+                    teacherDetails.classList.remove('active-popup');
+                    document.querySelector('.wrapper').style.zIndex = '0';
+            window.location.reload();
+        } else {
+            console.error('Form submission failed');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+    </script>
+
+
+{% endblock %}

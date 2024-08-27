@@ -1,0 +1,114 @@
+{% extends "Admin/base1.html" %}
+{% load static %}
+
+{% block my %}
+
+
+<style>
+
+
+    .student-details {
+        text-align: center;
+        padding: 10px;
+        background: linear-gradient(to bottom, #3498db, #eeeded); /* Apply linear gradient background */
+        color: black;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(52, 152, 219, 0.7);
+        animation: fadeIn 1s ease-out;
+        max-width: 650px; /* Increased max-width */
+        margin: auto; /* Center horizontally */
+        flex: 1;
+        height: 75vh; /* Increased height */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+
+    .student-details form {
+        margin-top: 10px;
+        padding: 10px;
+        width: 100%; /* Make form width 100% */
+        height: 100%; /* Make form height 100% */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Center vertically */
+    }
+
+    form .form-group {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start; /* Align items to the left */
+        width: 100%; /* Adjust width of form groups */
+        margin-bottom: 15px; /* Increased margin bottom for form groups */
+    }
+
+    form .form-group label {
+        width: 30%; /* Adjust width of labels */
+        margin-right: 20px; /* Add space between label and input field */
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    form .form-group input {
+        margin-right: 10px;
+        flex: 1; /* Take remaining space */
+    }
+
+
+    button[type="submit"] {
+        margin-top: 25px; /* Increased margin top for submit button */
+        font-size: 16px !important; /* Increased font size for submit button */
+        width: 40%; /* Adjust width of submit button */
+        align-items: center;
+        color: white;
+    }
+
+    .student-details h2 {
+        margin-top: 30px;
+        font-weight: bold;
+    }
+
+</style>
+
+
+<div id="content" class="container">
+    <img src="{% static 'logo.jpeg' %}" alt="logo" />
+
+    <h1 style="text-align: center; margin-bottom: 50px; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; font-weight: bolder;">
+        The Punjab School
+    </h1>
+
+    <div class="student-details">
+        <h2 style="margin-top: 7%">Upload challan</h2>
+        <form method="post" enctype="multipart/form-data" class="exam-form" style="margin-bottom: 50px;">
+            {% csrf_token %}
+             <div class="form-group">
+              <label class="form-label" for="id_student_id">Student ID:</label>
+              <input type="text" name="student_id" class="form-input" required>
+            </div>
+          <div class="form-group">
+              <label class="form-label" for="id_classroom_id">Classroom:</label>
+              <input type="text" name="classroom_id" class="form-input" required>
+         </div>
+         <div class="form-group">
+              <label class="form-label" for="id_section_id">Section :</label>
+              <input type="text" name="section_id" class="form-input" required>
+         </div>
+
+               <div class="form-group">
+              <label class="form-label" for="id_chalan">Challan File:</label>
+              <input type="file" name="chalan" class="form-input" required>
+              </div>
+
+
+            <div class="form-group">
+                <label></label>
+                <button type="submit" class="btn btn-light btn-center">Upload</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

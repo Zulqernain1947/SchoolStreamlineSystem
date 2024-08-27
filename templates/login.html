@@ -1,0 +1,246 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+
+    <style>
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #081b29;
+}
+
+.wrapper {
+    position: relative;
+    width: 750px;
+    height: 450px;
+    background: transparent;
+    border: 2px solid #0ef;
+    box-shadow: 0 0 25px #0ef;
+    overflow: hidden;
+}
+
+.wrapper .form-box {
+    width: 50%;
+    height: 100%;
+    top: 0;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.wrapper .form-box.login {
+    left: 0;
+    padding: 0 60px 0 40px;
+
+}
+
+
+
+.form-box h2 {
+    padding: 10px;
+    text-align: center;
+    color: #fff;
+    font-size: 40px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.form-box .input-box {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    margin: 30px 0;
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-weight: 400;
+    padding-right: 23px;
+    font-size: 16px;
+    border-bottom: 2px solid #fff;
+    transition: .5s;
+}
+
+.input-box input:focus,
+.input-box input:valid{
+    border-bottom-color: #0ef;
+}
+
+.input-box label {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #fff;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.input-box input:focus~label,
+.input-box input:valid~label {
+    top: -5px;
+    color: #0ef;
+}
+
+.input-box i {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #fff;
+    transition: .5s;
+}
+
+.input-box input:focus~i,
+.input-box input:valid~i {
+    color: #0ef;
+}
+
+.btn {
+
+    margin-top: 20px;
+    width: 100%;
+    height: 40px;
+    position: relative;
+    background: transparent;
+    border: 2px solid #0ef;
+    border-radius: 40px;
+    outline: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 600;
+    z-index: 1;
+    overflow: hidden;
+    justify-content: center;
+}
+
+.btn::before {
+    position: absolute;
+    content: '' ;
+    left: 0;
+    top: -100%;
+    width: 100%;
+    height: 300%;
+    background: linear-gradient(#081b29, #0ef, #081b29, #0ef);
+    z-index: -1;
+    transition: .5s;
+}
+
+.btn:hover::before {
+    top: 0;
+}
+
+
+.wrapper .info-text {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.wrapper .info-text.login {
+    right: 0;
+    text-align: right;
+    padding: 0 40px 60px 150px;
+
+}
+
+
+
+.info-text h2{
+    right: 0;
+    margin-top: 15px;
+    color: #fff;
+    line-height: 1.3;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+.info-text img {
+    right: 0;
+    margin-left: 10px;
+}
+
+
+.wrapper .bg-animate {
+    position: absolute;
+    top: -4px;
+    right: 0;
+    width: 850px;
+    height: 600px;
+    border-bottom: 3px solid #0ef;
+    background: linear-gradient(45deg, #081b29,#0ef);
+    transform: rotate(10deg) skewY(40deg);
+    transform-origin: bottom right;
+    transition: 1.5s ease;
+    transition-delay: 1.6s;
+
+}
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <span class="bg-animate"></span>
+
+        <div class="form-box login">
+            <h2 class="animation">Login</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="input-box animation">
+                    <input type="text" name="uname" required>
+                    <label for="uname">Username</label>
+                    <i class="bx bxs-user"></i>
+                </div>
+                <div class="input-box animation">
+                    <input type="password" name="pwd" required>
+                    <label for="pwd" >Password</label>
+                    <i class="bx bxs-lock-alt"></i>
+                </div>
+                 <button type="submit" class="btn animation">Login</button>
+                {{ error }}
+            </form>
+        </div>
+        <div class="info-text login">
+                    <img src="{% static 'logo.jpeg' %}" alt="logo" />
+            <h2
+            style="
+
+                font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                font-weight: bolder;
+            "
+        >
+            The Punjab School
+        </h2>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+{% extends "Admin/base1.html" %}
+{% load static %}
+
+{% block my %}
+<style>
+    .student-details {
+        text-align: center;
+        padding: 10px;
+        background: linear-gradient(to bottom, #3498db, #eeeded);
+        color: black;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(52, 152, 219, 0.7);
+        animation: fadeIn 1s ease-out;
+        width: 80%; /* Adjusted width */
+        margin: auto;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .student-details form {
+        padding: 10px;
+        width: 100%;
+        max-width: 500px; /* Adjust as needed */
+        margin: auto;
+    }
+
+    form .form-group {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    form .form-group label {
+        width: 30%;
+        margin-right: 20px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    form .form-group input {
+        margin-right: 10px;
+        flex: 1;
+    }
+
+    button[type="submit"] {
+        margin-top: 25px;
+        font-size: 16px !important;
+        width: 40%;
+        align-items: center;
+        color: white;
+    }
+
+    .student-details h2 {
+        margin-top: 30px;
+        font-weight: bold;
+    }
+</style>
+
+<div id="content" class="container">
+    <img src="{% static 'logo.jpeg' %}" alt="logo" />
+
+    <h1 style="text-align: center; margin-bottom: 50px; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; font-weight: bolder;">
+        The Punjab School
+    </h1>
+
+    <div class="student-details">
+        <h2>Delete Teacher</h2>
+        <form method="post" enctype="multipart/form-data" class="exam-form" style="margin-bottom: 50px;">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="uname">Teacher ID:</label>
+                {{ data.teacher_id }}
+            </div>
+            <div class="form-group">
+                <label for="name">Deleted Name:</label>
+                {{ data.name }}
+            </div>
+            <div class="form-group">
+                <label for="email">Deleted Email:</label>
+                {{ data.email }}
+            </div>
+
+            <div class="form-group">
+                <label for="phone_no">Deleted Phone Number:</label>
+                {{ data.phone_no }}
+            </div>
+            <div class="form-group">
+                <label for="admission_date">Deleted Joining Date:</label>
+                {{ data.joining_date }}
+            </div>
+            <div class="form-group">
+                <label for="admission_date">Deleted Salary:</label>
+                {{ data.salary }}
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-light btn-center">Confirm</button>
+            </div>
+            {{ error }}
+        </form>
+    </div>
+</div>
+
+{% endblock %}

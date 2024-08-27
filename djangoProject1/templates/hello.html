@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+{% block my %}
+<body>
+{{ dt }}
+
+{% for n in clist %}
+<div>{{ n }}</div>
+{% endfor %}
+
+<table>
+    <tr>
+        <th>name</th>
+        <th>phone</th>
+    </tr>
+    {% for n in std_details %}
+    <tr>
+        <td>{{n.name  }}</td>
+        <td>{{n.phone  }}</td>
+
+    </tr>
+    {% endfor %}
+</table>
+{% if num|length > 0 %}
+{% for i in num %}
+    {% if i > 20 %}
+     <div>{{ i }}</div>
+    {% endif %}
+{% endfor %}
+{% else %}
+   no data found
+{% endif %}
+
+
+</body>
+</html>
+{% endblock %}

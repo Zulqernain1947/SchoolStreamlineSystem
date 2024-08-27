@@ -1,0 +1,196 @@
+
+{% extends "Teacher/base3.html" %}
+{% load static %}
+
+{% block my %}
+<style>
+
+  .container {
+    position: relative;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed; /* Position the wrapper relative to the viewport */
+    top: 50%; /* Center the wrapper vertically */
+    left: 60%; /* Center the wrapper horizontally */
+    transform: translate(-50%, -50%); /* Center the wrapper precisely */
+    z-index: 0;
+}
+
+.course-details {
+   width: auto;
+    height: auto;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .5);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    transform: scale(0);
+    transition: transform .5s ease, height .2s ease;
+}
+
+.course-details.active-popup {
+    transform: scale(1);
+
+}
+
+.course-details .icon-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 40px;
+    width: 40px;
+    font-size: 1.5em;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 20px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.course-details form {
+    margin: 40px;
+    padding: 10px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+form .form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+form .form-group label {
+    width: 30%;
+    margin-right: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+form .form-group input {
+    margin-right: 10px;
+    flex: 1;
+}
+
+button[type="submit"] {
+    margin-top: 15px;
+    font-size: 16px !important;
+    width: 40%;
+    align-items: center;
+    color: white;
+}
+
+.course-details h2 {
+    margin-top: 30px;
+    font-weight: bold;
+}
+    </style>
+
+<div id="content" class="container">
+    <div class="main-content">
+        <img src="{% static 'logo.jpeg' %}" alt="logo" />
+        <h1 style="text-align: center; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; font-weight: bolder;">
+            The Punjab School
+        </h1>
+        <div class="welcome-box">
+            <h1>Welcome, {{ teacher.name }}!</h1>
+        </div>
+        <div class="flex-container" style="margin: 6%">
+            <div class="container mt-4">
+                <h2>Your Classrooms and Sections:</h2>
+                {% for classroom_id, classroom_data in classrooms.items %}
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title classroom-section">Classroom ID: {{ classroom_id }}</h3>
+                        <h4>Sections:</h4>
+                        <ul class="list-group">
+                            {% for section in classroom_data.sections %}
+                            <li class="list-group-item classroom-section">
+                                Name: {{ section.name }} | Student Counts: {{ section.std_counts }}
+
+                                <button class="btn float-right" data-target="#courses_{{ classroom_id }}_{{ section.section_id }}"
+                                    onclick="handleButtonClick('{{ classroom_id }}', '{{ section.section_id }}', 'courses')"
+                                    data-toggle="tooltip" data-placement="top" title="View Courses">
+                                    <i class='fas fa-book-reader' style='font-size: 18px'></i>
+                                </button>
+
+                                <button class="btn float-right" data-target="#students_{{ classroom_id }}_{{ section.section_id }}"
+                                    onclick="handleButtonClick('{{ classroom_id }}', '{{ section.section_id }}', 'students')"
+                                    data-toggle="tooltip" data-placement="top" title="View Students">
+                                    <i class='fas fa-user-graduate' style='font-size: 20px'></i>
+                                </button>
+                                <div id="courses_{{ classroom_id }}_{{ section.section_id }}" class="collapse mt-2">
+                                    <h5 class="courses-enrolled">Courses:</h5>
+                                    <ul class="list-group">
+                                        {% for course in section.courses %}
+                                        <li class="list-group-item">C00{{ course.course_id }} - {{ course.course_name }}
+{#                                        <button class="btn float-right" onclick="window.location.href='{% url 'addMarks' section.section_id classroom_id course.course_id%}'"#}
+{#                                    data-toggle="tooltip" data-placement="top" title="Add Marks">#}
+{#                                    <i class='fas  fa-percent' style='font-size: 18px'></i>#}
+{#                                </button>#}
+
+                                  <button class="btn float-right ml-2" onclick="window.location.href='{% url 'diary' section.section_id classroom_id course.course_id%}'"
+        data-toggle="tooltip" data-placement="top" title="Diary">
+        <i class='fas fa-book-open' style='font-size: 18px'></i>
+    </button>
+    <button class="btn float-right" onclick="window.location.href='{% url 'addMarks' section.section_id classroom_id course.course_id%}'"
+                                    data-toggle="tooltip" data-placement="top" title="Add Marks">
+                                    <i class='fas  fa-percent' style='font-size: 18px'></i>
+                                </button>
+                                <button class="btn float-right" onclick="window.location.href='{% url 'markAttendence' section.section_id classroom_id course.course_id %}'"
+                                    data-toggle="tooltip" data-placement="top" title="Mark Attendance">
+                                    <i class='fas fa-check-circle' style='font-size: 18px'></i>
+                                </button>
+    <button class="btn float-right ml-2" onclick="window.location.href='{% url 'addAnnouncement' section.section_id classroom_id course.course_id%}'"
+    data-toggle="tooltip" data-placement="top" title="Announcements">
+    <i class='fas fa-bullhorn' style='font-size: 18px'></i>
+</button>
+
+                                        </li>
+
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div id="students_{{ classroom_id }}_{{ section.section_id }}" class="collapse mt-2">
+                                    <h5 class="students-enrolled">Students:</h5>
+                                    <ul class="list-group">
+                                        {% for student in section.students %}
+                                        <li class="list-group-item">{{ student.name }} - {{ student.email }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function handleButtonClick(classId, sectionId, type) {
+        var target = $(`#${type}_${classId}_${sectionId}`);
+        target.collapse('toggle');
+        $('[id^="courses_"]').not(target).collapse('hide');
+        $('[id^="students_"]').not(target).collapse('hide');
+        $('[id^="teachers_"]').not(target).collapse('hide');
+    }
+</script>
+{% endblock %}

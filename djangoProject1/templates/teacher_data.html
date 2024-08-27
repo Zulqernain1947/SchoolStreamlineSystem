@@ -1,0 +1,111 @@
+<!-- teacher_data.html -->
+
+{% extends "base.html" %}
+{% block my %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            margin-bottom: 20px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .welcome-box {
+            background: linear-gradient(to right, #007BFF, #00BFFF);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between; /* Add this line to position items at each end */
+            align-items: center; /* Align items vertically at the center */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .welcome-box h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .classroom-section {
+            font-weight: bold;
+            color: #007BFF;
+        }
+
+        .students-enrolled {
+            color: black;
+        }
+
+        .mark-attendance-btn {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-4">
+    <div class="welcome-box">
+        <h1>Welcome, {{ teacher.name }}!</h1>
+
+    </div>
+
+    <h2>Your Classrooms and Sections:</h2>
+
+    {% for classroom_data in classrooms %}
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title classroom-section">Classroom ID: {{ classroom_data.class_id }}</h3>
+                <h4>Sections:</h4>
+                <ul class="list-group">
+                    {% for section in classroom_data.sections %}
+                        <li class="list-group-item classroom-section">
+{#                            Section ID: {{ section.section_id }} |#}
+                            Name: {{ section.name }} |
+                      
+                            Student Counts: {{ section.std_counts }}
+                            <button class="btn btn-info ml-2" data-toggle="collapse" data-target="#students_{{ section.section_id }}">
+                                Show Students
+                            </button>
+                            <div id="students_{{ section.section_id }}" class="collapse mt-2">
+                                <h5 class="students-enrolled">Students Enrolled:</h5>
+                                <ul class="list-group">
+                                    {% for student in section.students %}
+                                        <li class="list-group-item">{{ student.name }} - {{ student.email }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+{% endblock %}

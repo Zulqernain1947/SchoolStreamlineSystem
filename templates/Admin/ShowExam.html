@@ -1,0 +1,70 @@
+{% extends "Admin/base1.html" %}
+{% load static %}
+
+
+{% block my %}
+
+<div id="content" class="container">
+      <img src="{% static 'logo.jpeg' %}" alt="logo" />
+
+      <h1
+        style="
+          text-align: center;
+          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+          font-weight: bolder;
+        "
+      >
+        The Punjab School
+      </h1>
+
+      <div class="welcome-box">
+                <h1>Welcome to Exam Department!</h1>
+      </div>
+    <div class="row product-container">
+         <table id="datatable" class="display"></table>
+    </div>
+    </div>
+    <script>
+        var myData;
+
+        jQuery(document).ready(function($) {
+            $.ajax({
+                type: "GET",
+                url: "/get_Exam",
+                success: function(result) {
+                    myData = result.data;
+
+                    if (myData != null && myData.length > 0) {
+
+                        $('#datatable').DataTable({
+                            data: myData,
+                            columns: [
+                                { data: 'course_id', title: 'Course ID' },
+                                { data: 'classroom_id', title: 'Class' },
+                                { data: 'section_id', title: 'Section' },
+                              //  { data: 'teacher_id', title: 'Teacher ID' },
+                                { data: 'exam_name', title: 'Exam Name' },
+                                {
+                                data: '_id', title: 'Action',
+                                render: function(data, type, row) {
+
+                                    var url = "{% url 'download_exam' 0 %}".replace('0', data);
+                                    return '<a href="' + url + '">Download Exam</a>';
+                                },
+                },
+                            ],
+
+
+                        });
+                    }
+                },
+                error: function(error) {
+                    console.log('Error:', error);
+                }
+            });
+        });
+    </script>
+
+
+
+{% endblock %}
